@@ -1,0 +1,34 @@
+kind: Pod  ## kubectl api-resources
+apiVersion: v1
+metadata:
+  name: my-python-app
+  namespace: default
+  labels:    ## defining a label for a is mandatory, with labels we can identify a group of similar pods
+    team: toshiba    ## here both key & value are your choice
+spec:  ## is about what is inside the pod
+  restartPolicy: Always
+  initContainers:
+    - name: init-cont1
+      image: lerndevops/alpine
+      command: ["sh", "-c", "sleep 30"]
+
+    - name: init-cont2
+      image: lerndevops/alpine
+      command: ["sh", "-c", "ls -l /"]
+  containers:
+    - name: pyapp
+      image: 79man/samplepyapp:v1
+      ports:
+        - name: http
+          containerPort: 3000
+        - name: https
+          containerPort: 3443
+
+    - name: nginx-gateway
+      image: nginx
+      ports:
+        - name: http
+          containerPort: 8080
+        - name: https
+          containerPort: 8443
+
