@@ -1,0 +1,26 @@
+kind: ReplicaSet
+apiVersion: apps/v1
+metadata:  ## this is replicaset metadata
+  name: rs1
+  namespace: default
+  ##labels:  labels for controller definition are not mandatory, if you want to write you can write
+spec:  ## this is replicset spec
+  replicas: 4 # if you dont mention the replicas by default it will create 1 replica
+  template:  ## this describes the pod definition that include always metadata & spec of the pod
+    metadata:  ## this is the pod meteadata where we can define the pod labels
+      #name: test  ## the name of the pod randomly created by kube, we need not to define the name
+      labels:
+        type: app
+    spec:
+      restartPolicy: Always
+      #initContainers:
+      containers:
+        - name: cont1
+          image: lerndevops/samplepyapp:v2
+          ports:
+            - name: http
+              containerPort: 3000
+  selector:
+    matchLabels:
+      type: app
+
