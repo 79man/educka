@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1  ## kubectl api-resources 
+metadata:
+  name: svc1
+  namespace: default 
+spec:
+  type: ClusterIP  # it acts a internal virtual load balancer & forwards the requests into multiple backend pods
+  selector: 
+    type: app   # this is the labels of the pods which will be the backends,
+  ports:
+    - port: 80  ## this is your Virtual LB port 
+      targetPort: 3000  ## this is the port inside cont
+
